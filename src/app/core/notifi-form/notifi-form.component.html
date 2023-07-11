@@ -1,0 +1,59 @@
+
+
+<div class="over-lay" *ngIf="show && receiveId == userId" (click)="closeOverLay($event)">
+  <div class="content">
+    <form [formGroup]="formQuantity" (ngSubmit)="submit()">
+      <div>
+        <p class="h6">Someone close to you needs blood.Enter the    </p>
+         <p class="h6">Quantity you wish to donate,or close the form.</p>
+         <p class="h6"></p>
+        <label for="quantity">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" formControlName="quantity" required pattern="[1-2]{1,1}" #quantityInput>
+      </div>
+      <button class="btn btn-primary mt-4" type="submit"  (click)="clocePopup()" [disabled]="!formQuantity.valid">Submit</button>
+      <button class="btn btn-primary mt-4" (click)="openModel()" (click)="getNeedyDataels()">Datails</button>
+      <button class="btn btn-primary mt-4" (click)="clocePopup()">Close</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="modal fade modelDataels" data-bs-backdrop="static" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">{{NeedyById?.firstName}} {{NeedyById?.lastName}}</h5>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <p><span><b>Age:</b></span> {{NeedyById?.age}}</p>
+          <p><span><b>Blood Type:</b></span> {{NeedyById?.bloodType}}</p>
+          <p><span><b>Gender:</b></span> {{NeedyById?.gender}}</p>
+          <a href="https://wa.me/{{NeedyById?.phone}}">
+            <p><span><b>Tel:</b></span> {{NeedyById?.phone}}</p>
+          </a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <p><span><b>City:</b></span> {{NeedyById?.location}}</p>
+          <p><span><b>Units:</b></span> {{NeedyById?.quantity}}</p>
+          <p><span><b>Date:</b></span> {{ NeedyById?.date | date :'shortDate' }} {{ NeedyById?.date |
+            date:'shortTime' }}</p>
+        </div>
+      </div>
+      <div class="row" id="imageContainer">
+        <b>Image:</b>
+        <img src="{{NeedyById?.hospitalReport}}" alt="" width="150px" height="100px"
+          (click)="showFullScreenImage($event.target)">
+      </div>
+      <div id="fullscreenImage" [ngStyle]="fullscreenImageStyles" (click)="closeFullScreenImage()">
+        <img [src]="fullscreenImageUrl" alt="">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModel()">Close</button>
+    </div>
+  </div>
+</div>
+</div>
